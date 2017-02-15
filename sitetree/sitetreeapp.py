@@ -799,7 +799,10 @@ class SiteTree(object):
         if not self.current_app_is_admin():
             # We do not need i18n for a tree rendered in Admin dropdown.
             tree_alias = self.resolve_tree_i18n_alias(tree_alias)
-        return self.get_cache_entry('parents', tree_alias)[item]
+        entries = self.get_cache_entry('parents', tree_alias)
+        if entries == False:
+            return []
+        return entries[item]
 
     def update_has_children(self, tree_alias, tree_items, navigation_type, menu_name=None):
         """Updates 'has_children' attribute for tree items."""
